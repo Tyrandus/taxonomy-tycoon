@@ -129,7 +129,7 @@
       {{message}}
     </div>
     <div class="accepted" v-if="accepted">
-      <a href="https://www.gbif.org/species/{{accepted.key}}"><strong>{{ accepted.scientificName }}</strong></a>
+      <a :href="`https://www.gbif.org/species/${accepted.usageKey}`"><strong>{{ accepted.scientificName }}</strong></a>
     </div>
     <div class="synonyms">
       <div v-for="synonym in synonyms">
