@@ -58,6 +58,7 @@
     }
 
     .search-button {
+      display: block;
       padding: .5rem;
       width: 100%;
       background-color: #b4d455;
@@ -67,7 +68,7 @@
       letter-spacing: .3px;
       color: white;
       font-weight: bold;
-      flex: 1;
+      flex: 2;
     }
 
     .search-field:focus {
@@ -120,7 +121,7 @@
 
     <div class="search-inputs">
       <input v-model="searchString" type="text" v-on:keyup.enter="search()" class="search-field" tabindex="0" v-bind:placeholder="getRandomPlant()" />
-      <input type="button" v-on:click="search()" class="search-button" value="Search GBIF">
+      <button v-on:click="search()" class="search-button">Search GBIF</button>
     </div>
 
     <div class="message">
