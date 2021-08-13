@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="./script.js"></script>
+  <title>TaxonomyTycoon</title>
+
+  <style>
+    * {
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      background-color: #f6f6f6
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .description {
+      color: dimgray;
+      font-size: 14px;
+      line-height: 150%;
+      padding: 0 2rem;
+    }
+
+    .search-field {
+      padding: .5rem;
+      text-align: center;
+      display: block;
+      width: 100%;
+      border: 1px solid #ededed;
+      box-shadow: 0 0 20px 2px rgba(0,0,0,.02);
+    }
+
+    .search-field:focus {
+      outline: none;
+      border-color: lightgray;
+    }
+
+    .message {
+      padding: 1rem 2rem;
+      text-align: center;
+      color: dimgray;
+    }
+
+    .accepted, .synonyms {
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .synonyms {
+      color: dimgray;
+      margin-bottom: 2rem;
+    }
+
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>TaxonomyTycoon</h1>
+    <p class="subtitle">Check your plant names.</p>
+
+    <input v-model="searchString" type="text" v-on:keyup.enter="search()" class="search-field" tabindex="0" placeholder="Search for a taxon …" />
+
+    <div class="message">
+      {{message}}
+    </div>
+    <div class="accepted" v-if="accepted">
+      <strong>{{ accepted.scientificName }}</strong>
+    </div>
+    <div class="synonyms" v-if="synonyms.length > 0">
+      <div v-for="synonym in synonyms">
+        {{ synonym.scientificName }}
+      </div>
+    </div>
+
+    <p class="description">
+      This website uses the <a href="https://api.gbif.org">GBIF API</a> to retrieve synonyms and accepted names.
+      Your inputs are thus shared with the Global Biodiversity Information Facility.
+      The application is designed as a light-weight alternative to the GBIF site for the sole purpose of verifying scientific names on the go.
+      Accepted ones appear bold, with their synonyms underneath.
+      This is not an official application by the GBIF.
+    </p>
+  </div>
+</body>
+</html>
