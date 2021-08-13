@@ -20,16 +20,17 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 2rem 1rem;
-      background-color: #f6f6f6
+      background-color: white
     }
 
     h1 {
-      margin-bottom: 1rem;
+      margin-bottom: .5rem;
       text-align: center;
+      color: darkgreen;
     }
 
     .subtitle {
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       text-align: center;
     }
 
@@ -40,13 +41,33 @@
       padding: 0 2rem;
     }
 
+    .search-inputs {
+      box-shadow: 2px 10px 30px rgba(0,0,0,.05);
+      display: flex;
+      border-radius: 5px;
+      overflow: hidden;
+      border: 2px solid #b4d544;
+    }
+
     .search-field {
-      padding: .5rem;
-      text-align: center;
+      padding: .5rem 2rem;
       display: block;
       width: 100%;
-      border: 1px solid #ededed;
-      box-shadow: 0 0 20px 2px rgba(0,0,0,.02);
+      border: none;
+      flex: 5;
+    }
+
+    .search-button {
+      padding: .5rem;
+      width: 100%;
+      background-color: #b4d455;
+      border: none;
+      text-transform: uppercase;
+      font-size: 80%;
+      letter-spacing: .3px;
+      color: white;
+      font-weight: bold;
+      flex: 1;
     }
 
     .search-field:focus {
@@ -60,9 +81,8 @@
       color: dimgray;
     }
 
-    .accepted, .synonyms {
+    .accepted, .synonyms, .alternatives {
       padding: 0 2rem;
-      text-align: center;
     }
 
     .synonyms {
@@ -74,8 +94,22 @@
     a:visited,
     a:hover,
     a:active {
+      color: darkgreen;
       font-weight: bold;
       text-decoration: none;
+    }
+
+    .alternatives {
+      margin-bottom: 2rem;
+    }
+
+    .alternative {
+      display: inline-block;
+      padding: .25rem;
+      margin-top: .25rem;
+      margin-right: .25rem;
+      border: 1px solid lightgray;
+      color: dimgray;
     }
   </style>
 </head>
@@ -84,18 +118,28 @@
     <h1>TaxonomyTycoon</h1>
     <p class="subtitle">Check your plant names.</p>
 
-    <input v-model="searchString" type="text" v-on:keyup.enter="search()" class="search-field" tabindex="0" placeholder="Search for a taxon …" />
+    <div class="search-inputs">
+      <input v-model="searchString" type="text" v-on:keyup.enter="search()" class="search-field" tabindex="0" v-bind:placeholder="getRandomPlant()" />
+      <input type="button" v-on:click="search()" class="search-button" value="Search GBIF">
+    </div>
 
     <div class="message">
       {{message}}
     </div>
     <div class="accepted" v-if="accepted">
-      <strong>{{ accepted.scientificName }}</strong>
+      <a href="https://www.gbif.org/species/{{accepted.key}}"><strong>{{ accepted.scientificName }}</strong></a>
     </div>
-    <div class="synonyms" v-if="synonyms.length > 0">
+    <div class="synonyms">
       <div v-for="synonym in synonyms">
         {{ synonym.scientificName }}
       </div>
+    </div>
+
+    <div class="alternatives" v-if="alternatives.length > 0">
+      <p>Similar taxa:</p>
+      <button v-for="alternative in alternatives" class="alternative" @click="loadAlternative(alternative)">
+        {{ alternative.scientificName }}
+      </button>
     </div>
 
     <p class="description">
