@@ -122,7 +122,7 @@
 
     <div class="search-inputs">
       <input v-model="searchString" type="text" v-on:keyup.enter="search()" class="search-field" tabindex="0" v-bind:placeholder="getRandomPlant()" />
-      <button v-on:click="search()" class="search-button">Search GBIF</button>
+      <button @click="search()" class="search-button">Search GBIF</button>
     </div>
 
     <div class="message">

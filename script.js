@@ -50,12 +50,11 @@ window.addEventListener('load', function () {
         })
       },
       fetchData: function (query) {
-        const gbifApiUrl = 'http://api.gbif.org/v1/'
+        const gbifApiUrl = 'https://api.gbif.org/v1/'
         const url = `${gbifApiUrl}${query}`
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url, false)
-        xhr.setRequestHeader('origin', 'http://acceptedNamesTool.de')
         xhr.send(null)
         return JSON.parse(xhr.responseText)
       },
